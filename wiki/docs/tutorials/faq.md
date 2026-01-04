@@ -4,6 +4,33 @@ comments: true
 
 # Frequently Asked Questions
 
+## Installation
+
+1) **Q:** I encountered Qt problem like below:
+
+```bash
+$ qt.qpa.plugin: Could not load the Qt platform plugin "xcb" in "" even though it was found.
+This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+
+Available platform plugins are: eglfs, linuxfb, minimal, minimalegl, offscreen, vnc, wayland-egl, wayland, wayland-xcomposite-egl, wayland-xcomposite-glx, webgl, xcb.
+```
+
+**A:** This is usually due to the lack of some shared libraries. 
+
+To see what you are missing:
+
+```bash
+$ ldd </path/to/conda>/envs/mxt/lib/python*/site-packages/PyQt5/Qt5/plugins/platforms/libqxcb.so | grep "not found"
+
+```
+
+You could try the following to install them in your conda environment:
+
+```bash
+conda activate mxt
+conda install -c conda-forge xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm
+```
+
 ## Hardware
 
 1) **Q:** Can this software run on a CPU cluster?
