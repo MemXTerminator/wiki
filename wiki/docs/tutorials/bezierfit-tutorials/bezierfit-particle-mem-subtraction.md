@@ -53,7 +53,10 @@ You can set the following parameters:
 After setting the appropriate parameters, click `Launch` to begin the membrane subtraction.
 
 !!! Note "How to resume from a breakpoint"
-    Like Radonfit Particle Membrane Subtraction, if the job is interrupted for some reason, you can continue to do the membrane subtraction because every time you begin the membrane subtraction, the software will read the `bezfit_pms_run_data.log` file, which records the particle stacks that have been processed. The software will automatically skip the processed particle stacks and continue to process the remaining particle stacks.
+    MemXTerminator resumes using per-output `.mxt` sidecar files written next to each output particle stack in the `subtracted/` folder (for example, `xxx_subtracted.mrcs` + `xxx_subtracted.mrcs.mxt`).
+
+    - `bezfit_pms_run_data.log` is a human-readable log only and can be deleted without affecting resume.
+    - If you already have `*_subtracted.mrc*` outputs from an older run but no `.mxt` files, advanced CLI users can use `--adopt_existing_outputs` to backfill `.mxt` sidecars without recomputing.
 
 ## 3 Results
 

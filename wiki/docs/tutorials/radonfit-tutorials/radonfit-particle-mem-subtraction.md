@@ -66,7 +66,10 @@ You can set the following parameters:
 After setting the appropriate parameters, click `Launch` to begin the membrane signal subtraction.
 
 !!! Note "How to resume from a breakpoint"
-    If the job is interrupted for some reason, please don't worry. You can continue to do the membrane subtraction because every time you begin the membrane subtraction, the software will read the `radfit_pms_run_data.log` file, which records the particle stacks that have been processed. The software will automatically skip the processed particle stacks and continue to process the remaining particle stacks.
+    MemXTerminator resumes using per-output `.mxt` sidecar files written next to each output particle stack in the `subtracted/` folder (for example, `xxx_subtracted.mrcs` + `xxx_subtracted.mrcs.mxt`).
+
+    - `radfit_pms_run_data.log` is a human-readable log only and can be deleted without affecting resume.
+    - If you already have `*_subtracted.mrc*` outputs from an older run but no `.mxt` files, advanced CLI users can use `--adopt_existing_outputs` to backfill `.mxt` sidecars without recomputing.
 
 ## 3 Results
 
@@ -77,6 +80,11 @@ You will find a `subtracted` folder next to the folder where you extracted the p
     ├── subtracted/
 
 In the `subtracted` folder, you will find all the mrc files of the particles with membrane signals removed. You can proceed with further processing using `cryoSPARC` or put the membrane-subtracted particles back to the micrographs for subsequent processing.
+
+You will also find two STAR files next to your input STAR file (with default settings):
+
+* `*_subtracted.star`: Rewrites `rlnImageName` to point to the membrane-subtracted particle stacks.
+* `*_subtracted_completed.star`: Filters to only particles whose membrane-subtracted stacks are complete for the current subtraction parameters. This is recommended as the input STAR for **Micrograph Membrane Subtraction**.
 
 !!! Warning
     Please note that the software can only recognize the `extract` folder in the `Jxxx` folder, and usually in the `particles_selected.star` file, the `rlnImageName` column contains the path like `Jxxx/extract/xxx.mrc`. If you find that the software cannot recognize the `extract` folder, please check the `particles_selected.star` file and make sure the `rlnImageName` column is correct.

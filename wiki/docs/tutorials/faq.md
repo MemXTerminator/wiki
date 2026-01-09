@@ -71,7 +71,9 @@ conda install -c conda-forge xcb-util-image xcb-util-keysyms xcb-util-renderutil
 
 2) **Q:** If my job fails or suddenly stops, can I continue the membrane subtraction or do I need to restart it?
 
-**A:** Yes, you can continue to do membrane subtraction if your job suddenly fails. The software will read the `run_data.log` file every time you begin to do membrane subtraction, and the finished particle stacks/micrographs in the `run_data.log` will be skipped. By the way, this software ran continuously for 6 days when I used it before and everything just went well.
+**A:** Yes, you can continue. MemXTerminator resumes using per-output `.mxt` sidecar files written next to each output in the `subtracted/` folder (for example, `xxx_subtracted.mrcs` + `xxx_subtracted.mrcs.mxt`).
+
+The various `*_run_data.log` files are human-readable logs only and can be deleted without affecting resume. If you already have `*_subtracted.mrc*` outputs from an older run but no `.mxt` files, advanced CLI users can use `--adopt_existing_outputs` to backfill `.mxt` sidecars without recomputing.
 
 3) **Q:** I was faced with a problem like this: `ValueError: Map ID string not found - not an MRC file, or file is corrupt` when doing Micrograph Membrane Subtraction. I'm sure that the micrographs should be fine.
 

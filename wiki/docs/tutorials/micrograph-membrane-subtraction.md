@@ -42,7 +42,9 @@ The `Micrograph Membrane Subtraction` interface is as follows:
 
 You need to enter the following file path:
 
-* `Particles selected starfile`: Choose the star file that saves all particles information, usually `particles_selected.star`;
+* `Particles selected starfile`: Choose the STAR file that saves all particle + micrograph information.
+    * If you ran **Radonfit Particle Membrane Subtraction**, prefer the generated `*_subtracted_completed.star` (e.g. `particles_selected_subtracted_completed.star`) so Micrograph Membrane Subtraction only uses particles whose membrane-subtracted stacks are ready.
+    * Otherwise you can use `particles_selected.star`; micrographs whose dependency stacks are not available yet will be skipped and can be processed by re-running later.
 
 You can set the following parameters:
 
@@ -53,7 +55,10 @@ You can set the following parameters:
 After setting the appropriate parameters, click `Launch` to begin the membrane signal removal from the micrograph.
 
 !!! Note "How to resume from a breakpoint"
-    Like particle membrane subtraction, if the job is interrupted for some reason, please don't worry. You can continue to do the micrograph membrane subtraction because every time you begin to do it, the software will read the `mms_run_data.log` file, which records the micrographs that have been processed. The software will automatically skip the processed micrographs and continue to process the remaining micrographs.
+    MemXTerminator resumes using per-output `.mxt` sidecar files written next to each output micrograph in the `subtracted/` folder (for example, `xxx_subtracted.mrc` + `xxx_subtracted.mrc.mxt`).
+
+    - `mms_run_data.log` is a human-readable log only and can be deleted without affecting resume.
+    - If you already have `*_subtracted.mrc` outputs from an older run but no `.mxt` files, advanced CLI users can use `--adopt_existing_outputs` to backfill `.mxt` sidecars without recomputing.
 
 ## 3 Results
 
