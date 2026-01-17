@@ -75,6 +75,16 @@ conda install -c conda-forge xcb-util-image xcb-util-keysyms xcb-util-renderutil
 
 The various `*_run_data.log` files are human-readable logs only and can be deleted without affecting resume. If you already have `*_subtracted.mrc*` outputs from an older run but no `.mxt` files, advanced CLI users can use `--adopt_existing_outputs` to backfill `.mxt` sidecars without recomputing.
 
+!!! note
+    **GUI users:** currently the GUI does not expose `--adopt_existing_outputs` as a checkbox/text field. To backfill `.mxt` for an existing `subtracted/` folder, you can re-run the *same underlying Python module* from a terminal and add `--adopt_existing_outputs`.
+
+    - Radonfit Particle Membrane Subtraction (PMS): `python -u -m memxterminator.radonfit.bin.membrane_subtract-main ... --adopt_existing_outputs`
+    - Bezierfit Particle Membrane Subtraction (PMS): `python -u -m memxterminator.bezierfit.bin.mem_subtract_main ... --adopt_existing_outputs`
+
+    You can check the command above by clicking `command...` button in the GUI.
+    
+    Important: `--adopt_existing_outputs` only writes missing/invalid `.mxt` sidecars **when the corresponding `*_subtracted.mrc*` output already exists**. It will *not* generate outputs, and it works best when you use the **same pixel-affecting parameters** as the run that produced those outputs (e.g. `bias`, `extra_mem_dist`, `points_step`, etc.).
+
 3) **Q:** I was faced with a problem like this: `ValueError: Map ID string not found - not an MRC file, or file is corrupt` when doing Micrograph Membrane Subtraction. I'm sure that the micrographs should be fine.
 
 **A:** It seems that it has something to do with the `mrcfile` python library when reading the micrographs. You can try to fix your micrographs by just using this command:
