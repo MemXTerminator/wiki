@@ -59,9 +59,9 @@ You can set the following parameters:
 
 * `Scaling_factor_step`: The search step for the scaling factor (i.e., $\lambda$) during trajectory averaging. Default is 0.01. A smaller step size may result in more accurate determination of the scaling factor but increases computation time;
 
-* `CPU`: You can set multiple CPUs for computation. Default is 10. However, if your GPU memory is limited, it is advised not to set too many CPUs to avoid memory issues;
+* `Procs`: Worker processes for GPU computation (not CPU cores). Default is 0 (auto-detect visible GPUs). It is recommended not to exceed the number of GPUs; if GPU memory is limited, keep this small;
 
-* `Batch_size`: You can set how many particle stacks are processed in parallel. Default is 20, twice the number of CPUs. It is recommended to set it as a multiple of the CPU number. If your GPU memory is limited, it is advised not to set a large Batch size.
+* `Batch_size`: You can set how many particle stacks are processed in parallel. Default is 20. It is recommended to set it as a multiple of the Procs value. If your GPU memory is limited, it is advised not to set a large Batch size.
 
 After setting the appropriate parameters, click `Launch` to begin the membrane signal subtraction.
 
