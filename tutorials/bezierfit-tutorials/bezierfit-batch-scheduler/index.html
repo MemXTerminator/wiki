@@ -1,0 +1,2631 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A simple and beautiful wiki for MemXTerminator">
+      
+      
+        <meta name="author" content="Zhen Huang">
+      
+      
+      
+        <link rel="prev" href="../bezierfit-particle-mem-subtraction/">
+      
+      
+        <link rel="next" href="../../micrograph-membrane-subtraction/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/icons/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Batch Scheduler - MemXTerminator Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto Slab";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#bezierfit-batch-scheduler" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-banner">
+          <div class="md-banner__inner md-grid md-typeset">
+            
+              <button class="md-banner__button md-icon" aria-label="Don't show this again">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+              </button>
+            
+            
+  <!-- Add announcement here, including arbitrary HTML -->
+  Please DO NOT hesitate to contact me if you have any questions or suggestions. Give the repo a <b>STAR</b> if you find it helpful. Thank you! :)
+
+          </div>
+          
+            <script>var el=document.querySelector("[data-md-component=announce]");if(el){var content=el.querySelector(".md-typeset");__md_hash(content.innerHTML)===__md_get("__announce")&&(el.hidden=!0)}</script>
+          
+        </aside>
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="MemXTerminator Wiki" class="md-header__button md-logo" aria-label="MemXTerminator Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.513 1.097c-.645 0-1.233.34-2.407 1.017L3.675 5.82A7.23 7.23 0 0 0 0 12.063v.236a7.23 7.23 0 0 0 3.667 6.238L7.69 20.86c2.354 1.36 3.531 2.042 4.824 2.042 1.292.001 2.47-.678 4.825-2.038l4.251-2.453c1.177-.68 1.764-1.02 2.087-1.579.323-.56.324-1.24.323-2.6v-2.63a1.04 1.04 0 0 0-1.558-.903l-8.728 5.024c-.587.337-.88.507-1.201.507-.323 0-.616-.168-1.204-.506l-5.904-3.393c-.297-.171-.446-.256-.565-.271a.6.6 0 0 0-.634.368c-.045.111-.045.282-.043.625.002.252 0 .378.025.494.053.259.189.493.387.667.089.077.198.14.416.266l6.315 3.65c.589.34.884.51 1.207.51s.617-.17 1.206-.509l7.74-4.469c.202-.116.302-.172.377-.13.075.044.075.16.075.392v1.193c0 .34.001.51-.08.649-.08.14-.227.224-.522.394l-6.382 3.685c-1.178.68-1.767 1.02-2.413 1.02s-1.236-.34-2.412-1.022l-5.97-3.452-.043-.025a4.1 4.1 0 0 1-2.031-3.52V11.7a2.25 2.25 0 0 1 1.12-1.944 1.98 1.98 0 0 1 1.982-.001l4.946 2.858c1.174.679 1.762 1.019 2.407 1.02.645 0 1.233-.34 2.41-1.017l7.482-4.306a1.091 1.091 0 0 0 0-1.891L14.92 2.11c-1.175-.675-1.762-1.013-2.406-1.013Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MemXTerminator Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Batch Scheduler
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/MemXTerminator/MemXTerminator" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MemXTerminator
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="MemXTerminator Wiki" class="md-nav__button md-logo" aria-label="MemXTerminator Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.513 1.097c-.645 0-1.233.34-2.407 1.017L3.675 5.82A7.23 7.23 0 0 0 0 12.063v.236a7.23 7.23 0 0 0 3.667 6.238L7.69 20.86c2.354 1.36 3.531 2.042 4.824 2.042 1.292.001 2.47-.678 4.825-2.038l4.251-2.453c1.177-.68 1.764-1.02 2.087-1.579.323-.56.324-1.24.323-2.6v-2.63a1.04 1.04 0 0 0-1.558-.903l-8.728 5.024c-.587.337-.88.507-1.201.507-.323 0-.616-.168-1.204-.506l-5.904-3.393c-.297-.171-.446-.256-.565-.271a.6.6 0 0 0-.634.368c-.045.111-.045.282-.043.625.002.252 0 .378.025.494.053.259.189.493.387.667.089.077.198.14.416.266l6.315 3.65c.589.34.884.51 1.207.51s.617-.17 1.206-.509l7.74-4.469c.202-.116.302-.172.377-.13.075.044.075.16.075.392v1.193c0 .34.001.51-.08.649-.08.14-.227.224-.522.394l-6.382 3.685c-1.178.68-1.767 1.02-2.413 1.02s-1.236-.34-2.412-1.022l-5.97-3.452-.043-.025a4.1 4.1 0 0 1-2.031-3.52V11.7a2.25 2.25 0 0 1 1.12-1.944 1.98 1.98 0 0 1 1.982-.001l4.946 2.858c1.174.679 1.762 1.019 2.407 1.02.645 0 1.233-.34 2.41-1.017l7.482-4.306a1.091 1.091 0 0 0 0-1.891L14.92 2.11c-1.175-.675-1.762-1.013-2.406-1.013Z"/></svg>
+
+    </a>
+    MemXTerminator Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/MemXTerminator/MemXTerminator" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MemXTerminator
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../radonfit-tutorials/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Radonfit
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Radonfit
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../radonfit-tutorials/radonfit-mem-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Particle Membrane Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../radonfit-tutorials/radonfit-particle-mem-subtraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Particle Membrane Subtraction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bezierfit
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Bezierfit
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bezierfit-mem-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Particle Membrane Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bezierfit-particle-mem-subtraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Particle Membrane Subtraction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Batch Scheduler
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Batch Scheduler
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 Core Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-job-level-parallelism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Job-Level Parallelism
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-gpu-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 GPU Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-output-isolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Output Isolation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-input-base-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Input Base Directory
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-using-the-gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 Using the GUI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3 Using the GUI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-open-the-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Open the Interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-add-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Add Jobs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-create-parameter-sweeps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Create Parameter Sweeps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-configure-scheduler-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Configure Scheduler Settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-run-and-monitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Run and Monitor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-stop-cancel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Stop / Cancel
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-using-the-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 Using the CLI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4 Using the CLI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-create-a-batch-specification-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Create a Batch Specification File
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-run-the-batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Run the Batch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-job-kinds-and-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Job Kinds and Arguments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Job Kinds and Arguments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#particle-pms-bezierfit_particle_pms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Particle PMS (bezierfit_particle_pms)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#micrograph-mms-bezierfit_micrograph_mms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Micrograph MMS (bezierfit_micrograph_mms)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-micrograph-mms-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Micrograph MMS Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-log-files-and-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5 Log Files and State
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5 Log Files and State">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-scheduler-level-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Scheduler-Level Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-per-job-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Per-Job Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-output-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Output Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6 Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6 Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filenotfounderror-on-relative-paths-jextract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FileNotFoundError on Relative Paths (J###/extract/...)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cupycuda-not-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CuPy/CUDA Not Available
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blocked_dependency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BLOCKED_DEPENDENCY
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpu-out-of-memory-oom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPU Out of Memory (OOM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resume-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resume Behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stopping-a-batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stopping a Batch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7 Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../micrograph-membrane-subtraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Micrograph Membrane Subtraction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frequently Asked Questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Pages
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference Pages
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/radonfit-mem-analysis-visualizer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualizing Radon Analysis ()
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/bezierfit-mem-analysis-visualizer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualizing Bezier Analysis ()
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 Core Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-job-level-parallelism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Job-Level Parallelism
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-gpu-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 GPU Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-output-isolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Output Isolation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-input-base-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Input Base Directory
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-using-the-gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 Using the GUI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3 Using the GUI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-open-the-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Open the Interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-add-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Add Jobs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-create-parameter-sweeps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Create Parameter Sweeps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-configure-scheduler-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Configure Scheduler Settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-run-and-monitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Run and Monitor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-stop-cancel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Stop / Cancel
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-using-the-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 Using the CLI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4 Using the CLI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-create-a-batch-specification-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Create a Batch Specification File
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-run-the-batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Run the Batch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-job-kinds-and-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Job Kinds and Arguments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Job Kinds and Arguments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#particle-pms-bezierfit_particle_pms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Particle PMS (bezierfit_particle_pms)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#micrograph-mms-bezierfit_micrograph_mms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Micrograph MMS (bezierfit_micrograph_mms)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-micrograph-mms-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Micrograph MMS Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-log-files-and-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5 Log Files and State
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5 Log Files and State">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-scheduler-level-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Scheduler-Level Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-per-job-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Per-Job Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-output-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Output Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6 Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6 Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filenotfounderror-on-relative-paths-jextract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FileNotFoundError on Relative Paths (J###/extract/...)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cupycuda-not-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CuPy/CUDA Not Available
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blocked_dependency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BLOCKED_DEPENDENCY
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpu-out-of-memory-oom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPU Out of Memory (OOM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resume-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resume Behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stopping-a-batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stopping a Batch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7 Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../basic-pipeline/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Tutorials
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Bezierfit
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+
+
+
+                  
+
+
+  
+  
+
+
+<h1 id="bezierfit-batch-scheduler">Bezierfit Batch Scheduler<a class="headerlink" href="#bezierfit-batch-scheduler" title="Permanent link">&para;</a></h1>
+<h2 id="1-introduction">1 Introduction<a class="headerlink" href="#1-introduction" title="Permanent link">&para;</a></h2>
+<p>The Bezierfit Batch Scheduler allows you to run multiple membrane subtraction jobs in parallel with intelligent GPU resource management. This is especially useful when you need to:</p>
+<ul>
+<li>Process multiple datasets simultaneously</li>
+<li>Run parameter sweeps to find optimal settings (e.g., different <code>points_step</code> values)</li>
+<li>Coordinate dependent workflows (e.g., run Particle Membrane Subtraction first, then Micrograph Membrane Subtraction)</li>
+</ul>
+<p>The scheduler handles GPU allocation automatically, ensuring jobs don't compete for the same GPU resources.</p>
+<div class="admonition note">
+<p class="admonition-title">Prerequisites</p>
+<p>This tutorial assumes MemXTerminator is already installed and usable on your system.
+If not, please follow the <a href="../../installation/">Installation</a> tutorial first.</p>
+</div>
+<p>For single-job runs, continue to use the standard <a href="../bezierfit-particle-mem-subtraction/">Particle Membrane Subtraction</a> and <a href="../bezierfit-mms/">Micrograph Membrane Subtraction</a> interfaces.</p>
+<h2 id="2-core-concepts">2 Core Concepts<a class="headerlink" href="#2-core-concepts" title="Permanent link">&para;</a></h2>
+<h3 id="21-job-level-parallelism">2.1 Job-Level Parallelism<a class="headerlink" href="#21-job-level-parallelism" title="Permanent link">&para;</a></h3>
+<p>The Batch Scheduler runs multiple independent jobs concurrently. Each job is a complete membrane subtraction task (Particle PMS, Micrograph MMS, or Membrane Analysis) with its own parameters and output directory.</p>
+<p>Unlike single-job parallelism (where one job uses multiple GPUs/processes), job-level parallelism lets you queue many jobs and have them execute automatically as GPU resources become available.</p>
+<h3 id="22-gpu-scheduling">2.2 GPU Scheduling<a class="headerlink" href="#22-gpu-scheduling" title="Permanent link">&para;</a></h3>
+<p>The scheduler manages a pool of available GPUs and allocates them to jobs based on your configuration:</p>
+<ul>
+<li><strong><code>gpus</code></strong>: A list of GPU IDs available to the scheduler (e.g., <code>[0, 1, 2, 3]</code>). These correspond to the physical GPU indices on your system.</li>
+<li><strong><code>max_running_jobs</code></strong>: Maximum number of jobs that can run simultaneously.</li>
+<li><strong><code>policy</code></strong>: How GPUs are assigned to jobs:<ul>
+<li><code>fill_first</code> (default): Assigns jobs to the lowest-index available GPUs first. Good for keeping some GPUs free for other users.</li>
+<li><code>round_robin</code>: Spreads jobs evenly across GPUs in rotation. Good for balanced utilization.</li>
+</ul>
+</li>
+</ul>
+<p>Internally, the scheduler sets <code>CUDA_VISIBLE_DEVICES</code> for each job, so the job only sees its assigned GPU(s).</p>
+<h3 id="23-output-isolation">2.3 Output Isolation<a class="headerlink" href="#23-output-isolation" title="Permanent link">&para;</a></h3>
+<p>Each job writes to its own isolated directory specified by <code>output_root</code>. This prevents jobs from interfering with each other and makes it easy to compare results from different parameter settings.</p>
+<h3 id="24-input-base-directory">2.4 Input Base Directory<a class="headerlink" href="#24-input-base-directory" title="Permanent link">&para;</a></h3>
+<p>CryoSPARC <code>.cs</code> files and STAR files often contain <strong>relative paths</strong> (e.g., <code>J220/extract/particles.mrcs</code>). Because the batch scheduler runs each job with its working directory set to <code>&lt;output_root&gt;</code>, these relative paths may fail to resolve correctly, resulting in <code>FileNotFoundError</code>.</p>
+<p>The <code>input_base_dir</code> argument solves this by specifying the directory from which relative paths inside the input files should be resolved:</p>
+<ul>
+<li><strong>Auto-inference (default)</strong>: The scheduler automatically infers <code>input_base_dir</code> from your primary input file. For CryoSPARC layouts (where the <code>.cs</code> or <code>.star</code> file lives directly under a <code>J###/</code> folder), it infers the parent directory of that <code>J###/</code> folder (e.g., <code>/data/project/</code> if the input is <code>/data/project/J220/particles_selected.cs</code>).</li>
+<li><strong>Manual override</strong>: You can explicitly set <code>input_base_dir</code> if the auto-inferred value is incorrect or if your file layout differs from the standard CryoSPARC structure.</li>
+</ul>
+<p><img alt="Before Auto-parse Input Base Directory" class="small" src="../../../assets/images/batch_scheduler_autoparse_input_base_before.png" /></p>
+<p><img alt="Auto-parsed Input Base Directory" class="small" src="../../../assets/images/batch_scheduler_autoparse_input_base_after.png" />
+<span class="caption">Auto-parse Input Base Directory</span></p>
+<p>For example, if you run two PMS jobs with different <code>points_step</code> values, you might use:</p>
+<ul>
+<li>Job 1: <code>output_root = /runs/pms_step_0.001</code></li>
+<li>Job 2: <code>output_root = /runs/pms_step_0.002</code></li>
+</ul>
+<p>The subtracted particle stacks will appear under <code>&lt;output_root&gt;/subtracted/...</code> for each job.</p>
+<h2 id="3-using-the-gui">3 Using the GUI<a class="headerlink" href="#3-using-the-gui" title="Permanent link">&para;</a></h2>
+<h3 id="31-open-the-interface">3.1 Open the Interface<a class="headerlink" href="#31-open-the-interface" title="Permanent link">&para;</a></h3>
+<p>Open the MemXTerminator main program, select the <code>Bezierfit</code> mode, then click <code>Batch Scheduler</code> to enter the Batch Scheduler interface:</p>
+<p><img alt="Batch Scheduler interface" class="small" src="../../../assets/images/batch_scheduler_main.png" />
+<span class="caption">Bezierfit Batch Scheduler interface</span></p>
+<h3 id="32-add-jobs">3.2 Add Jobs<a class="headerlink" href="#32-add-jobs" title="Permanent link">&para;</a></h3>
+<p>Click <code>Add job</code> to create a new job entry. You can add multiple jobs of different types:</p>
+<ul>
+<li><strong>Particle PMS</strong> - Particle Membrane Subtraction</li>
+<li><strong>Micrograph MMS</strong> - Micrograph Membrane Subtraction</li>
+<li><strong>Membrane Analyze</strong> - Bezier curve fitting on 2D averages</li>
+</ul>
+<p><img alt="Adding a job" class="small" src="../../../assets/images/batch_scheduler_add_job.png" />
+<span class="caption">Adding a new job to the batch</span></p>
+<p>For each job, configure:</p>
+<ul>
+<li><strong>Job ID</strong>: A unique identifier (letters, numbers, underscores, periods, hyphens)</li>
+<li><strong>Output Root</strong>: Directory where this job's outputs will be written</li>
+<li><strong>GPUs</strong>: Number of GPUs required by this job</li>
+<li><strong>Procs</strong>: Number of worker processes (defaults to number of GPUs)</li>
+<li><strong>Input Base Dir</strong>: Base directory for resolving relative paths in input files (see below)</li>
+<li><strong>Job-specific parameters</strong>: File paths and processing options</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Per-Job Input Base Directory</p>
+<p>Each job has an <strong>Input Base Dir</strong> field with a <strong>Custom input base dir</strong> checkbox and a <strong>Browse</strong> button.</p>
+<ul>
+<li><strong>Default (recommended)</strong>: Leave <strong>Custom input base dir</strong> unchecked. The field shows the auto-inferred value (read-only) based on your primary input file.</li>
+<li><strong>Manual override</strong>: If the auto-inferred path is incorrect (e.g., non-standard CryoSPARC layout), check <strong>Custom input base dir</strong> and browse to the correct CryoSPARC project root (the directory containing the <code>J###/</code> folders) or the directory that makes the relative paths inside your <code>.cs</code>/<code>.star</code> resolve correctly.</li>
+</ul>
+</div>
+<h3 id="33-create-parameter-sweeps">3.3 Create Parameter Sweeps<a class="headerlink" href="#33-create-parameter-sweeps" title="Permanent link">&para;</a></h3>
+<p>To test multiple parameter values, use the <strong>Sweep...</strong> button:</p>
+<ol>
+<li>Select the job you want to sweep</li>
+<li>Click <strong>Sweep...</strong></li>
+<li>Choose the parameter to vary (e.g., <code>points_step</code>)</li>
+<li>Enter values as a comma-separated list (e.g., <code>0.001,0.002,0.005</code>) or specify a range with start, end, and step</li>
+<li>Click <strong>Generate</strong></li>
+</ol>
+<p><img alt="Sweep builder dialog" class="small" src="../../../assets/images/batch_scheduler_sweep.png" />
+<span class="caption">Creating a parameter sweep with the Sweep builder</span></p>
+<p>The sweep builder will create multiple jobs automatically, each with a unique job ID and output root based on the parameter value.</p>
+<div class="admonition tip">
+<p class="admonition-title">Manual Alternative</p>
+<p>You can also create sweeps manually by duplicating a job (select it and click <strong>Duplicate</strong>), then editing the parameters and output root for each copy.</p>
+</div>
+<h3 id="34-configure-scheduler-settings">3.4 Configure Scheduler Settings<a class="headerlink" href="#34-configure-scheduler-settings" title="Permanent link">&para;</a></h3>
+<p>Before launching, configure the scheduler settings:</p>
+<ul>
+<li><strong>GPUs</strong>: Enter available GPU IDs (e.g., <code>0,1,2,3</code>)</li>
+<li><strong>Max Running Jobs</strong>: Limit concurrent jobs (useful if you want to reserve some GPUs)</li>
+<li><strong>Policy</strong>: Choose <code>fill_first</code> or <code>round_robin</code></li>
+</ul>
+<p><img alt="Scheduler settings" class="small" src="../../../assets/images/batch_scheduler_settings.png" />
+<span class="caption">Configuring scheduler settings</span></p>
+<h3 id="35-run-and-monitor">3.5 Run and Monitor<a class="headerlink" href="#35-run-and-monitor" title="Permanent link">&para;</a></h3>
+<p>Click <strong>Run batch</strong> to start the batch. The interface will show real-time status:</p>
+<ul>
+<li><strong>Queued</strong>: Jobs waiting to run</li>
+<li><strong>Running</strong>: Jobs currently executing (with assigned GPUs shown)</li>
+<li><strong>Success</strong>: Completed jobs</li>
+<li><strong>Failed</strong>: Jobs that encountered errors</li>
+</ul>
+<p><img alt="Batch running" class="small" src="../../../assets/images/batch_scheduler_running.png" />
+<span class="caption">Monitoring batch execution progress</span></p>
+<p>The bottom panel shows the batch scheduler log. For per-job logs, open the job's output folder and inspect <code>scheduler_stdout.log</code> / <code>scheduler_stderr.log</code> inside that job's <code>output_root</code>.</p>
+<h3 id="36-stop-cancel">3.6 Stop / Cancel<a class="headerlink" href="#36-stop-cancel" title="Permanent link">&para;</a></h3>
+<p>To stop the batch:</p>
+<ul>
+<li><strong>Stop</strong>: Terminates the batch scheduler; running jobs receive SIGTERM and have up to ~30 seconds to clean up</li>
+<li>Jobs that haven't started yet will be marked as canceled</li>
+</ul>
+<h2 id="4-using-the-cli">4 Using the CLI<a class="headerlink" href="#4-using-the-cli" title="Permanent link">&para;</a></h2>
+<h3 id="41-create-a-batch-specification-file">4.1 Create a Batch Specification File<a class="headerlink" href="#41-create-a-batch-specification-file" title="Permanent link">&para;</a></h3>
+<p>The CLI uses a JSON specification file. Here's a minimal example that runs two PMS jobs with different <code>points_step</code> values:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;scheduler&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;gpus&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;policy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fill_first&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_running_jobs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;fail_fast&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;jobs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;job_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pms_step_0.001&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bezierfit_particle_pms&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;output_root&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/runs/pms_step_0.001&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;resources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;gpus&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;procs&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/particles_selected.cs&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/templates_selected.cs&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;control_points&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/control_points.json&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;points_step&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.001</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;physical_membrane_dist&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;input_base_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/cryosparc_project&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;resume&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;job_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pms_step_0.002&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bezierfit_particle_pms&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;output_root&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/runs/pms_step_0.002&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;resources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;gpus&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;procs&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/particles_selected.cs&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/templates_selected.cs&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;control_points&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/control_points.json&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;points_step&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.002</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;physical_membrane_dist&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;input_base_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/cryosparc_project&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;resume&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Exported JSON includes input_base_dir</p>
+<p>When you export a batch specification from the GUI, <code>input_base_dir</code> is explicitly included in each job's <code>args</code> for reproducibility, even if it was auto-inferred.</p>
+</div>
+<h3 id="42-run-the-batch">4.2 Run the Batch<a class="headerlink" href="#42-run-the-batch" title="Permanent link">&para;</a></h3>
+<p>Execute the scheduler with either of the following:</p>
+<div class="highlight"><pre><span></span><code>MemXTerminator<span class="w"> </span>bezierfit-batch<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spec<span class="w"> </span>/path/to/batch_spec.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--state<span class="w"> </span>/path/to/scheduler_state.json
+</code></pre></div>
+<p>Or:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-u<span class="w"> </span>-m<span class="w"> </span>memxterminator.bezierfit.scheduler.cli<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spec<span class="w"> </span>/path/to/batch_spec.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--state<span class="w"> </span>/path/to/scheduler_state.json
+</code></pre></div>
+<p>Optional CLI overrides:</p>
+<ul>
+<li><code>--gpus 0,1,2,3</code> - Override GPU list</li>
+<li><code>--policy round_robin</code> - Override scheduling policy</li>
+<li><code>--max_running_jobs 2</code> - Override max concurrent jobs</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the JSON spec, setting <code>"procs": null</code> (or omitting <code>procs</code>) lets the scheduler choose a safe default (typically <code>procs = gpus</code> for that job).</p>
+</div>
+<h3 id="43-job-kinds-and-arguments">4.3 Job Kinds and Arguments<a class="headerlink" href="#43-job-kinds-and-arguments" title="Permanent link">&para;</a></h3>
+<h4 id="particle-pms-bezierfit_particle_pms">Particle PMS (<code>bezierfit_particle_pms</code>)<a class="headerlink" href="#particle-pms-bezierfit_particle_pms" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>particle</code></td>
+<td>Yes</td>
+<td>Path to particles <code>.cs</code> file</td>
+</tr>
+<tr>
+<td><code>template</code></td>
+<td>Yes</td>
+<td>Path to templates <code>.cs</code> file</td>
+</tr>
+<tr>
+<td><code>control_points</code></td>
+<td>Yes</td>
+<td>Path to <code>control_points.json</code></td>
+</tr>
+<tr>
+<td><code>points_step</code></td>
+<td>Yes</td>
+<td>Bezier curve sampling step (e.g., 0.001)</td>
+</tr>
+<tr>
+<td><code>physical_membrane_dist</code></td>
+<td>Yes</td>
+<td>Membrane thickness in Å (e.g., 35)</td>
+</tr>
+<tr>
+<td><code>batch_size</code></td>
+<td>No</td>
+<td>Minibatch size (default: 20)</td>
+</tr>
+<tr>
+<td><code>input_base_dir</code></td>
+<td>No</td>
+<td>Base directory for resolving relative paths in input files (auto-inferred from input file if not set)</td>
+</tr>
+<tr>
+<td><code>resume</code></td>
+<td>No</td>
+<td>Resume from <code>.mxt</code> checkpoints (default: true)</td>
+</tr>
+<tr>
+<td><code>force</code></td>
+<td>No</td>
+<td>Force recompute all (default: false)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="micrograph-mms-bezierfit_micrograph_mms">Micrograph MMS (<code>bezierfit_micrograph_mms</code>)<a class="headerlink" href="#micrograph-mms-bezierfit_micrograph_mms" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>particle</code></td>
+<td>Yes</td>
+<td>Path to <code>particles_selected.star</code></td>
+</tr>
+<tr>
+<td><code>batch_size</code></td>
+<td>No</td>
+<td>Minibatch size (default: 30)</td>
+</tr>
+<tr>
+<td><code>input_base_dir</code></td>
+<td>No</td>
+<td>Base directory for resolving relative paths in input files (auto-inferred from input file if not set)</td>
+</tr>
+<tr>
+<td><code>resume</code></td>
+<td>No</td>
+<td>Resume from <code>.mxt</code> checkpoints (default: true)</td>
+</tr>
+<tr>
+<td><code>require_particle_mxt</code></td>
+<td>No</td>
+<td>Require PMS completion (default: true)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">MMS Dependency on PMS</p>
+<p>When <code>require_particle_mxt</code> is <code>true</code>, MMS jobs will report <code>BLOCKED_DEPENDENCY</code> if the corresponding particle stacks haven't been subtracted yet. See <a href="#blocked_dependency">Troubleshooting</a> for details.</p>
+</div>
+<h3 id="44-micrograph-mms-example">4.4 Micrograph MMS Example<a class="headerlink" href="#44-micrograph-mms-example" title="Permanent link">&para;</a></h3>
+<p>Here's an example that includes both PMS and MMS jobs:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;scheduler&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;gpus&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;policy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fill_first&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_running_jobs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;fail_fast&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;jobs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;job_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pms_dataset1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bezierfit_particle_pms&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;output_root&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/runs/pms_dataset1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;resources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;gpus&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;procs&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/data/particles_selected.cs&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/data/templates_selected.cs&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;control_points&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/data/control_points.json&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;points_step&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.001</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;physical_membrane_dist&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;job_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mms_dataset1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bezierfit_micrograph_mms&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;output_root&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/runs/mms_dataset1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;resources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;gpus&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;procs&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/data/particles_selected.star&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;batch_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;require_particle_mxt&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you run PMS and MMS jobs in the same batch with <code>require_particle_mxt: true</code>, the MMS job may initially report blocked dependencies while PMS is still running. Once PMS completes, re-running the batch (or using resume) will allow MMS to proceed.</p>
+</div>
+<h2 id="5-log-files-and-state">5 Log Files and State<a class="headerlink" href="#5-log-files-and-state" title="Permanent link">&para;</a></h2>
+<h3 id="51-scheduler-level-files">5.1 Scheduler-Level Files<a class="headerlink" href="#51-scheduler-level-files" title="Permanent link">&para;</a></h3>
+<p>Located in your run root directory (where you launched from or specified):</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bezierfit_batch.run.out</code></td>
+<td>Main scheduler stdout/stderr log</td>
+</tr>
+<tr>
+<td><code>scheduler_state.json</code></td>
+<td>Real-time scheduler state (updated every ~200ms)</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>scheduler_state.json</code> file contains:</p>
+<ul>
+<li>Current job statuses (queued, running, success, failed, canceled)</li>
+<li>Free GPU list</li>
+<li>Job counts and progress</li>
+<li>Timestamps for each job</li>
+</ul>
+<h3 id="52-per-job-files">5.2 Per-Job Files<a class="headerlink" href="#52-per-job-files" title="Permanent link">&para;</a></h3>
+<p>Located in each job's <code>output_root</code> directory:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scheduler_stdout.log</code></td>
+<td>Job's captured stdout</td>
+</tr>
+<tr>
+<td><code>scheduler_stderr.log</code></td>
+<td>Job's captured stderr</td>
+</tr>
+<tr>
+<td><code>job_spec_resolved.json</code></td>
+<td>Resolved job specification (for debugging)</td>
+</tr>
+<tr>
+<td><code>job_result.json</code></td>
+<td>Final job result and metadata</td>
+</tr>
+</tbody>
+</table>
+<h3 id="53-output-structure">5.3 Output Structure<a class="headerlink" href="#53-output-structure" title="Permanent link">&para;</a></h3>
+<p>For PMS jobs, subtracted particles appear in:</p>
+<div class="highlight"><pre><span></span><code>&lt;output_root&gt;/
+└── subtracted/
+    ├── xxx_subtracted.mrcs
+    ├── xxx_subtracted.mrcs.mxt
+    └── ...
+</code></pre></div>
+<h2 id="6-troubleshooting">6 Troubleshooting<a class="headerlink" href="#6-troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="filenotfounderror-on-relative-paths-jextract">FileNotFoundError on Relative Paths (J###/extract/...)<a class="headerlink" href="#filenotfounderror-on-relative-paths-jextract" title="Permanent link">&para;</a></h3>
+<p>If jobs fail with errors like:</p>
+<div class="highlight"><pre><span></span><code>FileNotFoundError: [Errno 2] No such file or directory: &#39;J220/extract/particles.mrcs&#39;
+</code></pre></div>
+<p>This occurs because CryoSPARC <code>.cs</code> and STAR files often store <strong>relative paths</strong> (e.g., <code>J220/extract/...</code>). The batch scheduler runs each job with its working directory set to <code>&lt;output_root&gt;</code>, so these relative paths cannot be resolved.</p>
+<p><strong>Solution:</strong> Set <code>input_base_dir</code> to your CryoSPARC project root (the directory containing <code>J###</code> folders):</p>
+<ul>
+<li><strong>GUI</strong>: In the job's <strong>Input Base Dir</strong> field, check <strong>Custom input base dir</strong> and browse to your CryoSPARC project directory.</li>
+<li><strong>CLI/JSON</strong>: Add <code>"input_base_dir": "/path/to/cryosparc_project"</code> to the job's <code>args</code> section.</li>
+</ul>
+<p>In most cases, the auto-inferred value should work correctly. If you see this error, verify that the inferred path matches your CryoSPARC project layout.</p>
+<h3 id="cupycuda-not-available">CuPy/CUDA Not Available<a class="headerlink" href="#cupycuda-not-available" title="Permanent link">&para;</a></h3>
+<p>If jobs fail with CUDA-related errors:</p>
+<ol>
+<li>Verify your CUDA installation (see <a href="../../installation/">Installation</a>)</li>
+<li>Check that <code>CUDA_VISIBLE_DEVICES</code> isn't already set in your environment</li>
+<li>Ensure the GPU IDs in your spec are valid for your system</li>
+</ol>
+<h3 id="blocked_dependency">BLOCKED_DEPENDENCY<a class="headerlink" href="#blocked_dependency" title="Permanent link">&para;</a></h3>
+<p>MMS jobs report <code>BLOCKED_DEPENDENCY</code> when particle stacks aren't ready:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt; BLOCKED_DEPENDENCY missing_stack=/path/to/stack.mrcs
+REASON: MISSING_PARTICLE_STACK
+</code></pre></div>
+<p><strong>Causes and solutions:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Reason</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MISSING_PARTICLE_STACK</code></td>
+<td>PMS job hasn't created the output yet. Wait for PMS to complete.</td>
+</tr>
+<tr>
+<td><code>MISSING_PARTICLE_MXT</code></td>
+<td>PMS job didn't write <code>.mxt</code> checkpoint. Re-run PMS or set <code>require_particle_mxt: false</code>.</td>
+</tr>
+<tr>
+<td><code>PARTICLE_MXT_STATUS_NOT_SUCCESS</code></td>
+<td>PMS job failed. Check PMS logs and fix the issue.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gpu-out-of-memory-oom">GPU Out of Memory (OOM)<a class="headerlink" href="#gpu-out-of-memory-oom" title="Permanent link">&para;</a></h3>
+<p>If jobs fail with CUDA OOM errors:</p>
+<ol>
+<li><strong>Reduce <code>max_running_jobs</code></strong>: Fewer concurrent jobs = more memory per job</li>
+<li><strong>Reduce <code>procs</code></strong>: Fewer worker processes per job</li>
+<li><strong>Reduce <code>batch_size</code></strong>: Smaller batches require less memory</li>
+<li><strong>Request more GPUs per job</strong>: Spread computation across multiple GPUs</li>
+</ol>
+<h3 id="resume-behavior">Resume Behavior<a class="headerlink" href="#resume-behavior" title="Permanent link">&para;</a></h3>
+<p>Jobs use <code>.mxt</code> checkpoint files for resume:</p>
+<ul>
+<li><strong>Resume works</strong>: Set <code>"resume": true</code> in job args. Already-completed particle stacks are skipped.</li>
+<li><strong>Force recompute</strong>: Set <code>"force": true</code> to ignore checkpoints and reprocess everything.</li>
+<li><strong>Adopt existing outputs</strong>: Use <code>"adopt_existing_outputs": true</code> if you have outputs from an older run without <code>.mxt</code> files.</li>
+</ul>
+<h3 id="stopping-a-batch">Stopping a Batch<a class="headerlink" href="#stopping-a-batch" title="Permanent link">&para;</a></h3>
+<p><strong>From GUI</strong>: Click the Stop button. Running jobs receive SIGTERM and have up to 30 seconds to clean up.</p>
+<p><strong>From CLI</strong>: Send SIGTERM to the scheduler process (Ctrl+C or <code>kill &lt;pid&gt;</code>). The PID is stored in <code>bezierfit_batch.pid</code>.</p>
+<p>Stopped jobs can be resumed later by re-running with <code>"resume": true</code>.</p>
+<h2 id="7-summary">7 Summary<a class="headerlink" href="#7-summary" title="Permanent link">&para;</a></h2>
+<p>The Bezierfit Batch Scheduler streamlines multi-job workflows:</p>
+<ol>
+<li><strong>Plan your jobs</strong>: Define job IDs, output roots, and parameters</li>
+<li><strong>Configure GPU scheduling</strong>: Set available GPUs, max concurrent jobs, and allocation policy</li>
+<li><strong>Run and monitor</strong>: Track progress via GUI or state files</li>
+<li><strong>Review outputs</strong>: Each job's results are isolated in its own <code>output_root</code></li>
+</ol>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+  <h2 id="__comments">Comments</h2>
+  <!-- Insert generated snippet here -->
+  <script src="https://giscus.app/client.js"
+        data-repo="MemXTerminator/wiki"
+        data-repo-id="R_kgDOMi5YFg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOMi5YFs4ChlHb"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+  </script>
+  <!-- Synchronize Giscus theme with palette -->
+  <script>
+    var giscus = document.querySelector("script[src*=giscus]")
+
+    // Set palette on initial load
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object") {
+      var theme = palette.color.scheme === "slate"
+        ? "transparent_dark"
+        : "light"
+
+      // Instruct Giscus to set theme
+      giscus.setAttribute("data-theme", theme) 
+    }
+
+    // Register event handlers after documented loaded
+    document.addEventListener("DOMContentLoaded", function() {
+      var ref = document.querySelector("[data-md-component=palette]")
+      ref.addEventListener("change", function() {
+        var palette = __md_get("__palette")
+        if (palette && typeof palette.color === "object") {
+          var theme = palette.color.scheme === "slate"
+            ? "transparent_dark"
+            : "light"
+
+          // Instruct Giscus to change theme
+          var frame = document.querySelector(".giscus-frame")
+          frame.contentWindow.postMessage(
+            { giscus: { setConfig: { theme } } },
+            "https://giscus.app"
+          )
+        }
+      })
+    })
+  </script>
+
+                
+
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../bezierfit-particle-mem-subtraction/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Particle Membrane Subtraction">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Particle Membrane Subtraction
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../micrograph-membrane-subtraction/" class="md-footer__link md-footer__link--next" aria-label="Next: Micrograph Membrane Subtraction">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Micrograph Membrane Subtraction
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <!-- Copyright and theme information -->
+<div class="md-copyright">
+    
+    
+      Copyright &copy; 2024 <a href="https://github.com/ZhenHuangLab" target="_blank" rel="noopener">Zhen Huang</a>. This wiki is for <a href="https://github.com/MemXTerminator" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">MemXTerminator</a>.
+      <br>
+      Made with
+      <a
+        href="https://squidfunk.github.io/mkdocs-material/"
+        target="_blank" rel="noopener"
+      >
+        Material for MkDocs
+      </a>
+      modified by
+      <a
+        href="https://github.com/ZhenHuangLab"
+        target="_blank" rel="noopener"
+        >
+        Zhen Huang
+      </a>
+      <!-- <br> -->
+      <!-- <p xmlns:cc="http://creativecommons.org/ns#" >This work is licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-NC-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></a></p> -->
+      <!-- This documentation is licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-NC-SA 4.0</a> -->
+      
+  </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.path", "navigation.indexes", "navigation.footer", "announce.dismiss", "toc.follow", "content.code.copy", "content.code.annotate", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="../../../javascripts/katex.js"></script>
+      
+        <script src="../../../javascripts/extra.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>
