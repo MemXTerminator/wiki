@@ -62,3 +62,12 @@ In the `subtracted` folder, you will find all the `.mrc` files of the micrograph
 
 !!! Note
     The orginal micrographs don't have to be in the `motioncorrected` folder. The software will take the second folder in the directory as the original micrographs folder. For exmaple, in the `particles_selected.star` file, the `rlnMicrographName` column contains the path like `Jxxx/import/xxxmicrograph.mrc`. Then the software will take the `import` folder as the original micrographs folder and create a `subtracted` folder next to it.
+
+!!! Tip "Running from a Different Directory (CLI)"
+    STAR files often contain relative paths like `J220/import/...`. If you run the CLI from a directory other than your CryoSPARC project root, use the `--input_base_dir` flag to specify where these relative paths should be resolved from:
+
+    ```bash
+    python -m memxterminator.bezierfit.bin.micrograph_mem_subtract_main ... --input_base_dir /path/to/cryosparc_project
+    ```
+
+    The batch scheduler handles this automatically (see [Batch Scheduler](./bezierfit-batch-scheduler.md)).

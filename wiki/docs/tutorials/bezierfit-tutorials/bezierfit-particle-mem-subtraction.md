@@ -70,3 +70,12 @@ This folder contains all the `.mrc` files of the particles with membrane signals
 
 !!! Warning
     Like Radonfit Particle Membrane Subtraction, please note that the software can only recognize the `extract` folder in the `Jxxx` folder, and usually in the `'blob/path'` column of the `particles_selected.cs` file.
+
+!!! Tip "Running from a Different Directory (CLI)"
+    CryoSPARC `.cs` files often contain relative paths like `J220/extract/...`. If you run the CLI from a directory other than your CryoSPARC project root, use the `--input_base_dir` flag to specify where these relative paths should be resolved from:
+
+    ```bash
+    python -m memxterminator.bezierfit.bin.mem_subtract_main ... --input_base_dir /path/to/cryosparc_project
+    ```
+
+    The batch scheduler handles this automatically (see [Batch Scheduler](./bezierfit-batch-scheduler.md)).

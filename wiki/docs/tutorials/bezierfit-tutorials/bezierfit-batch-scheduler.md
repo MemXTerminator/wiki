@@ -44,6 +44,20 @@ Internally, the scheduler sets `CUDA_VISIBLE_DEVICES` for each job, so the job o
 
 Each job writes to its own isolated directory specified by `output_root`. This prevents jobs from interfering with each other and makes it easy to compare results from different parameter settings.
 
+### 2.4 Input Base Directory
+
+CryoSPARC `.cs` files and STAR files often contain **relative paths** (e.g., `J220/extract/particles.mrcs`). Because the batch scheduler runs each job with its working directory set to `<output_root>`, these relative paths may fail to resolve correctly, resulting in `FileNotFoundError`.
+
+The `input_base_dir` argument solves this by specifying the directory from which relative paths inside the input files should be resolved:
+
+* **Auto-inference (default)**: The scheduler automatically infers `input_base_dir` from your primary input file. For CryoSPARC layouts (where the `.cs` or `.star` file lives directly under a `J###/` folder), it infers the parent directory of that `J###/` folder (e.g., `/data/project/` if the input is `/data/project/J220/particles_selected.cs`).
+* **Manual override**: You can explicitly set `input_base_dir` if the auto-inferred value is incorrect or if your file layout differs from the standard CryoSPARC structure.
+
+![Before Auto-parse Input Base Directory](../../assets/images/batch_scheduler_autoparse_input_base_before.png){: .small}
+
+![Auto-parsed Input Base Directory](../../assets/images/batch_scheduler_autoparse_input_base_after.png){: .small}
+<span class="caption">Auto-parse Input Base Directory</span>
+
 For example, if you run two PMS jobs with different `points_step` values, you might use:
 
 * Job 1: `output_root = /runs/pms_step_0.001`
@@ -77,7 +91,14 @@ For each job, configure:
 * **Output Root**: Directory where this job's outputs will be written
 * **GPUs**: Number of GPUs required by this job
 * **Procs**: Number of worker processes (defaults to number of GPUs)
+* **Input Base Dir**: Base directory for resolving relative paths in input files (see below)
 * **Job-specific parameters**: File paths and processing options
+
+!!! Note "Per-Job Input Base Directory"
+    Each job has an **Input Base Dir** field with a **Custom input base dir** checkbox and a **Browse** button.
+
+    - **Default (recommended)**: Leave **Custom input base dir** unchecked. The field shows the auto-inferred value (read-only) based on your primary input file.
+    - **Manual override**: If the auto-inferred path is incorrect (e.g., non-standard CryoSPARC layout), check **Custom input base dir** and browse to the correct CryoSPARC project root (the directory containing the `J###/` folders) or the directory that makes the relative paths inside your `.cs`/`.star` resolve correctly.
 
 ### 3.3 Create Parameter Sweeps
 
@@ -159,6 +180,7 @@ The CLI uses a JSON specification file. Here's a minimal example that runs two P
         "control_points": "/path/to/control_points.json",
         "points_step": 0.001,
         "physical_membrane_dist": 35,
+        "input_base_dir": "/path/to/cryosparc_project",
         "resume": true
       }
     },
@@ -177,12 +199,16 @@ The CLI uses a JSON specification file. Here's a minimal example that runs two P
         "control_points": "/path/to/control_points.json",
         "points_step": 0.002,
         "physical_membrane_dist": 35,
+        "input_base_dir": "/path/to/cryosparc_project",
         "resume": true
       }
     }
   ]
 }
 ```
+
+!!! Tip "Exported JSON includes input_base_dir"
+    When you export a batch specification from the GUI, `input_base_dir` is explicitly included in each job's `args` for reproducibility, even if it was auto-inferred.
 
 ### 4.2 Run the Batch
 
@@ -223,6 +249,7 @@ Optional CLI overrides:
 | `points_step` | Yes | Bezier curve sampling step (e.g., 0.001) |
 | `physical_membrane_dist` | Yes | Membrane thickness in Å (e.g., 35) |
 | `batch_size` | No | Minibatch size (default: 20) |
+| `input_base_dir` | No | Base directory for resolving relative paths in input files (auto-inferred from input file if not set) |
 | `resume` | No | Resume from `.mxt` checkpoints (default: true) |
 | `force` | No | Force recompute all (default: false) |
 
@@ -232,6 +259,7 @@ Optional CLI overrides:
 |----------|----------|-------------|
 | `particle` | Yes | Path to `particles_selected.star` |
 | `batch_size` | No | Minibatch size (default: 30) |
+| `input_base_dir` | No | Base directory for resolving relative paths in input files (auto-inferred from input file if not set) |
 | `resume` | No | Resume from `.mxt` checkpoints (default: true) |
 | `require_particle_mxt` | No | Require PMS completion (default: true) |
 
@@ -326,6 +354,23 @@ For PMS jobs, subtracted particles appear in:
 ```
 
 ## 6 Troubleshooting
+
+### FileNotFoundError on Relative Paths (J###/extract/...)
+
+If jobs fail with errors like:
+
+```
+FileNotFoundError: [Errno 2] No such file or directory: 'J220/extract/particles.mrcs'
+```
+
+This occurs because CryoSPARC `.cs` and STAR files often store **relative paths** (e.g., `J220/extract/...`). The batch scheduler runs each job with its working directory set to `<output_root>`, so these relative paths cannot be resolved.
+
+**Solution:** Set `input_base_dir` to your CryoSPARC project root (the directory containing `J###` folders):
+
+* **GUI**: In the job's **Input Base Dir** field, check **Custom input base dir** and browse to your CryoSPARC project directory.
+* **CLI/JSON**: Add `"input_base_dir": "/path/to/cryosparc_project"` to the job's `args` section.
+
+In most cases, the auto-inferred value should work correctly. If you see this error, verify that the inferred path matches your CryoSPARC project layout.
 
 ### CuPy/CUDA Not Available
 

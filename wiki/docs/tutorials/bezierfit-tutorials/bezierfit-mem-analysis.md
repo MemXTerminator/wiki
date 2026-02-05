@@ -46,6 +46,15 @@ After setting the appropriate parameters, click `Launch` to start the analysis a
 !!! Note
     The Bezierfit Membrane Analysis process will be much slower than Radonfit Membrane Analysis, as it involves more complex curve fitting and optimization, and each time can only process one 2D average.
 
+!!! Tip "Running from a Different Directory (CLI)"
+    CryoSPARC `.cs` files often contain relative paths like `J220/extract/...`. If you run the CLI from a directory other than your CryoSPARC project root, use the `--input_base_dir` flag to specify where these relative paths should be resolved from:
+
+    ```bash
+    python -m memxterminator.bezierfit.bin.mem_analyze_main ... --input_base_dir /path/to/cryosparc_project
+    ```
+
+    The batch scheduler handles this automatically (see [Batch Scheduler](./bezierfit-batch-scheduler.md)).
+
 ## 3 Results
 
 You will obtain a `JSON` file containing `control_points` information for all templates. This `JSON` file can be used in the next step of Particles Membrane Subtraction.
